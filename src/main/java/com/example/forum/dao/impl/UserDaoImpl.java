@@ -1,6 +1,7 @@
 package com.example.forum.dao.impl;
 
 import com.example.forum.dao.UserDao;
+import com.example.forum.tools.JDBCUtils;
 import com.example.forum.tools.User;
 
 import java.sql.PreparedStatement;
@@ -16,20 +17,20 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public boolean isExist(User user) throws Exception {
-        //加载配置文件,获取连接池对象,获取数据库连接
-        Allocation a = new Allocation();
         //定义sql
         String sql = "select username from tab_user where username = ? or userid = ?;";
         //获取pstmt对象
-        PreparedStatement pstmt = a.getConn().prepareStatement(sql);
+        PreparedStatement pstmt = JDBCUtils.getConnection().prepareStatement(sql);
         //设置参数
         pstmt.setString(1, user.getUsername());
         pstmt.setString(2, user.getUserid());
         //执行sql
         ResultSet rs = pstmt.executeQuery();
         if(rs.next()){
+            JDBCUtils.close(JDBCUtils.getConnection());
             return true;
         }else {
+            JDBCUtils.close(JDBCUtils.getConnection());
             return false;
         }
     }

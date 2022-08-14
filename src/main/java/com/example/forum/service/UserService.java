@@ -9,4 +9,13 @@ public interface UserService {
      * @return
      */
     boolean regist(User user) throws Exception;
+
+    /**
+     * 登录账号
+     * @param userid
+     * @param password
+     * @return
+     * @throws Exception
+     */
+    boolean login(String userid,String password) throws Exception;
 }

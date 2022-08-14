@@ -25,9 +25,7 @@ public class JDBCUtils {
         Properties pp = new Properties();
         try {
             pp.load(is);
-            System.out.println(pp.getProperty("username"));
             ds = DruidDataSourceFactory.createDataSource(pp);
-            System.out.println(ds);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {

@@ -2,6 +2,7 @@ package com.example.forum.web.servlet;
 
 import com.example.forum.service.UserService;
 import com.example.forum.service.impl.UserServiceImpl;
+import com.example.forum.tools.InfoResponse;
 import com.example.forum.tools.InfoResult;
 import com.example.forum.tools.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,21 +44,7 @@ public class RegistUserServlet extends HttpServlet {
             e.printStackTrace();
         }
         //响应是否注册成功
-        InfoResult infoResult = new InfoResult();
-        if(flag){
-            //注册成功
-            infoResult.setFlag(true);
-        }else {
-            //注册失败
-            infoResult.setFlag(false);
-            infoResult.setErrorMsg("注册失败，用户名/账号已存在！");
-        }
-        //将info对象序列化为json并将数据写回客户端
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(infoResult);
-        //设置content-type防止乱码问题
-        resp.setContentType("application/json;charset=utf-8");
-        resp.getWriter().write(json);
+        new InfoResponse(resp,flag,"注册失败！账号/用户名已存在！");
     }
 
     @Override

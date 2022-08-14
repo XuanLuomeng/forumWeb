@@ -23,4 +23,22 @@ public class UserServiceImpl implements UserService {
             return true;
         }
     }
+
+    /**
+     * 登录账号
+     * @param userid
+     * @param password
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean login(String userid, String password) throws Exception{
+        UserDao userDao = new UserDaoImpl();
+        //检测用户是否存在且密码正确，若都正确则返回true登录成功，否则返回false登陆失败
+        if(userDao.findByUsernameAndPassword(userid,password)){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

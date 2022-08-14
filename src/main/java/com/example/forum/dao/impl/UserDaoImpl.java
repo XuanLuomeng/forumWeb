@@ -6,6 +6,7 @@ import com.example.forum.tools.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class UserDaoImpl implements UserDao {
 
@@ -36,12 +37,33 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findUsername(String username) {
-        return null;
-    }
-
-    @Override
     public void save() {
 
+    }
+
+    /**
+     * 根据用户名和密码查询的方法
+     * @param userid
+     * @param password
+     * @return
+     */
+    @Override
+    public boolean findByUsernameAndPassword(String userid, String password) throws SQLException {
+        //定义sql
+        String sql = "select username from tab_user where userid = ? and password = ?;";
+        //获取pstmt对象
+        PreparedStatement pstmt = JDBCUtils.getConnection().prepareStatement(sql);
+        //设置参数
+        pstmt.setString(1, userid);
+        pstmt.setString(2, password);
+        //执行sql
+        ResultSet rs = pstmt.executeQuery();
+        if(rs.next()){
+            JDBCUtils.close(JDBCUtils.getConnection());
+            return true;
+        }else {
+            JDBCUtils.close(JDBCUtils.getConnection());
+            return false;
+        }
     }
 }

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>登录</title>
-
+    <script src="js/jquery-3.3.1.min.js"></script>
     <style>
         body{
             padding: 0;
@@ -80,22 +80,76 @@
             color: white;
         }
     </style>
+    <script>
+        function checkUserid(){
+            /**
+             * 校验账号是否符合要求
+             * @type {*|string|jQuery}
+             */
+            var userid = $("#userid").val();
+            var reg_userid = /^\w{8,20}$/;
+            var flag = reg_userid.test(userid);
+            if(flag){
+                $("#userid").css("border","0px");
+            }else {
+                $("#userid").css("border","1px solid red");
+            }
+            return flag;
+        }
+        function checkPassword(){
+            /**
+             * 校验密码是否符合要求
+             */
+            var password = $("#password").val();
+            var reg_password = /^\w{8,20}$/;
+            var flag = reg_password.test(password);
+            if(flag){
+                $("#password").css("border","0px");
+            }else {
+                $("#password").css("border","1px solid red");
+            }
+            return flag;
+        }
+        $(function (){
+            $("#login_btn").click(function (){
+                if(checkUserid()&&checkPassword()){
+                    $.post("loginServlet",$("#loginForm").serialize(),function (data){
+                        if(data.flag){
+                            location.href="register_ok.html";
+                        }else {
+                            alert(data.errorMsg);
+                        }
+                    });
+                }
+                return false;
+            });
+            $("#userid").blur(checkUserid);
+            $("#password").blur(checkPassword);
+        });
+        $(function (){
+            $("#register_btn").click(function () {
+                location.href = "register.html";
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="login">
         <h2>登陆</h2>
-        <div class="login_form">
-            <span>账号：</span>
-            <input type="text" placeholder="请输入账号">
-            <br>
-            <span>密码：</span>
-            <input type="password" placeholder="请输入密码">
-        </div>
-        <div class="btn">
-            <button class="login_btn" onclick="login()">登 &nbsp;&nbsp;&nbsp;录</button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button class="register_btn" onclick="register()">注 &nbsp;&nbsp;&nbsp;册</button>
-        </div>
+        <form id="loginForm" action="user">
+            <div class="login_form">
+                <span>账号：</span>
+                <input type="text" id="userid" name="userid" placeholder="请输入账号">
+                <br>
+                <span>密码：</span>
+                <input type="password" id="password" name="password" placeholder="请输入密码">
+            </div>
+            <div class="btn">
+                <button type="button" class="login_btn" id="login_btn">登 &nbsp;&nbsp;&nbsp;录</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="register_btn" id="register_btn">注 &nbsp;&nbsp;&nbsp;册</button>
+            </div>
+        </form>
     </div>
 </body>
 </html>

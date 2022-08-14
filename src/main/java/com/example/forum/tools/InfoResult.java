@@ -1,6 +1,5 @@
 package com.example.forum.tools;
 
-
 import lombok.Data;
 
 import java.io.Serializable;

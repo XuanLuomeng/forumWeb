@@ -10,6 +10,7 @@ public class Article {
      * 内容
      * 发表日期
      */
+    private int aid;
     private String author;
     private String theme;
     private String articleText;

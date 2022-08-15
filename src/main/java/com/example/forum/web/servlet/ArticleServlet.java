@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 @WebServlet("/articleServlet")
 public class ArticleServlet extends HttpServlet {
-    private ArticleService routeService = new ArticleServiceImpl();
+    private ArticleService articleService = new ArticleServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,6 +25,7 @@ public class ArticleServlet extends HttpServlet {
          */
         String currentPageStr = req.getParameter("currentPage");
         String pageSizeStr = req.getParameter("pageSize");
+        String theme = "%"+req.getParameter("theme")+"%";
 
         /**
          * 处理参数
@@ -39,7 +40,7 @@ public class ArticleServlet extends HttpServlet {
         if(pageSizeStr!=null&&pageSizeStr.length()>0){
             pageSize = Integer.parseInt(pageSizeStr);
         }else {
-            pageSize = 5;
+            pageSize = 10;
         }
 
         /**
@@ -47,7 +48,7 @@ public class ArticleServlet extends HttpServlet {
          */
         Page<Article> page = null;
         try {
-            page = routeService.pageQuery(currentPage,pageSize);
+            page = articleService.pageQuery(currentPage,pageSize,theme);
         } catch (SQLException e) {
             e.printStackTrace();
         }

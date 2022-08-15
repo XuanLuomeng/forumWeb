@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文章内容</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <style>
+        body{
+            font-size: 12px;
+            background: linear-gradient(rgb(100, 183, 255) 0%, rgb(110, 200, 255) 100%);
+        }
+        #mast{
+            width: 1200px;
+            margin: auto;
+            align-content: center;
+        }
+        #discuss{
+            width: 970px;
+            float: right;
+            margin-left: 20px;
+            background-image: linear-gradient(#fbc2eb 0%, #a18cd1 100%);
+        }
+        #user{
+            border-radius: 10%;
+            padding: 20px;
+            float: left;
+            background-image: linear-gradient(#a18cd1 0%, #fbc2eb 100%);
+        }
+        .userImg{
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+        }
+        .login_btn,.register_btn{
+            background-color: rgba(255, 255, 255, 0.582);
+            border: 1px solid rgb(190, 225, 255);
+            padding: 2px;
+            width: 65px;
+            height: 23px;
+            border-radius: 30px;
+            font-size: 5px;
+            color: rgb(100, 183, 255);
+            font-weight: 100;
+            margin-top: 15px;
+        }
+        .login_btn:hover{
+            box-shadow: 2px 2px 15px 2px rgb(190, 225, 255);
+            background-color: transparent;
+            color: pink;
+        }
+        .register_btn:hover{
+            box-shadow: 2px 2px 15px 2px rgb(190, 225, 255);
+            background-color: transparent;
+            color: pink;
+        }
+        #mast_left{
+            height: 190px;
+            width: 190px;
+            float: left;
+        }
+        #tool{
+            border-radius: 5%;
+            float: left;
+            width: 180px;
+            height: 200px;
+            padding-left: 5px;
+            margin-top: 30px;
+            background-image: linear-gradient(#a18cd1 0%, #fbc2eb 100%);
+        }
+        #tool input{
+            width: 120px;
+            border: 1px solid rgb(190, 225, 255);
+            background-color: transparent;
+        }
+        #tool input::placeholder{
+            color: #fbc2eb;
+            font-weight: 100;
+            font-size: 10px;
+            font-style: italic;
+        }
+        .search_btn{
+            background-color: rgba(255, 255, 255, 0.582);
+            border: 1px solid rgb(190, 225, 255);
+            padding: 2px;
+            width: 40px;
+            height: 23px;
+            border-radius: 30px;
+            font-size: 5px;
+            color: rgb(100, 183, 255);
+            font-weight: 100;
+            margin-top: 15px;
+        }
+        #tool button:hover{
+            box-shadow: 2px 2px 15px 2px rgb(190, 225, 255);
+            background-color: transparent;
+            color: pink;
+        }
+        .testAdminister_btn,.collect_btn,.news_btn{
+            background-color: rgba(255, 255, 255, 0.582);
+            border: 1px solid rgb(190, 225, 255);
+            padding: 2px;
+            margin-left: 6px;
+            width: 160px;
+            height: 30px;
+            border-radius: 30px;
+            font-size: 5px;
+            color: rgb(100, 183, 255);
+            font-weight: 100;
+            margin-top: 15px;
+        }
+        #theme{
+            font-size: 30px;
+            font-weight: bold;
+        }
+        #head{
+            padding: 15px;
+        }
+        #article{
+            padding: 15px;
+        }
+        #article span{
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="mast">
+    <div id="mast_left">
+        <div id="user">
+            <img class="userImg" id="userImg" src="img/2.jpg">
+            <div class="btn">
+                <button type="button" class="login_btn" id="login_btn">登 &nbsp;&nbsp;&nbsp;录</button>
+                &nbsp;&nbsp;&nbsp;
+                <button type="button" class="register_btn" id="register_btn">注 &nbsp;&nbsp;&nbsp;册</button>
+            </div>
+        </div>
+        <div id="tool">
+            <input type="text" id="searchText" name="searchText" placeholder="请输入查找内容">
+            <button type="button" class="search_btn" id="search_btn">查找</button>
+            <button type="button" class="testAdminister_btn" id="testAdminister_btn">文章管理</button>
+            <button type="button" class="collect_btn" id="collect_btn">收藏</button>
+            <button type="button" class="news_btn" id="news_btn">消息</button>
+        </div>
+    </div>
+    <div id="discuss">
+        <div id="head">
+            <span id="theme">hello javaweb</span><br><br>
+            <span id="author">作者：莫星火&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span id="time">发布日期：2022-8-9</span>
+            <HR color="cornflowerblue">
+        </div>
+        <div id="article">
+            <span>
+                Java Web，是用Java技术来解决相关web互联网领域的技术栈。web包括：web服务端和web客户端两部分。Java在客户端的应用有Java Applet，不过使用得很少，Java在服务器端的应用非常的丰富，比如Servlet，JSP、第三方框架等等。Java技术对Web领域的发展注入了强大的动力。
+            </span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

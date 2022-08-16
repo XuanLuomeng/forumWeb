@@ -31,4 +31,11 @@ public class ArticleServiceImpl implements ArticleService {
         page.setTotalPage(totalPage);
         return page;
     }
+
+    @Override
+    public Article articleTest(int aid) throws SQLException {
+        //封装article
+        Article article = articleDao.findArticle(aid);
+        return article;
+    }
 }

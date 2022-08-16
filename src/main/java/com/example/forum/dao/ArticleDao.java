@@ -14,4 +14,6 @@ public interface ArticleDao {
      * 根据start,pageSize查询当前页的数据集合
      */
     List<Article> findByPage(int start, int pageSize, String theme) throws SQLException;
+
+    public Article findArticle(int aid) throws SQLException;
 }

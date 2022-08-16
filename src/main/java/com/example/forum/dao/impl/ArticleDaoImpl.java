@@ -77,4 +77,24 @@ public class ArticleDaoImpl implements ArticleDao {
         }
         return articles;
     }
+
+    @Override
+    public Article findArticle(int aid) throws SQLException {
+        //定义sql
+        String sql = "select username,theme,article,time from tab_user,tab_article WHERE uid=authorid and aid=?;";
+        //获取pstmt对象
+        PreparedStatement pstmt = JDBCUtils.getConnection().prepareStatement(sql);
+        //设置参数
+        pstmt.setInt(1, aid);
+        //执行sql
+        ResultSet rs = pstmt.executeQuery();
+        Article article = new Article();
+        if(rs.next()){
+            article.setAuthor(rs.getString(1));
+            article.setTheme(rs.getString(2));
+            article.setArticleText(rs.getString(3));
+            article.setTime(rs.getString(4));
+        }
+        return article;
+    }
 }

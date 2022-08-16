@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class Article {
     /**
+     * 文章的aid
      * 作者
      * 标题
      * 内容

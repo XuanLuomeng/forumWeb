@@ -3,7 +3,6 @@ package com.example.forum.web.servlet;
 import com.example.forum.service.ArticleService;
 import com.example.forum.service.impl.ArticleServiceImpl;
 import com.example.forum.tools.Article;
-import com.example.forum.tools.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
@@ -15,52 +14,33 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- * 论坛页码、文章等展示
+ * 文章内容展示
  */
-@WebServlet("/articleServlet")
-public class ArticleServlet extends HttpServlet {
+@WebServlet("/articleTestServlet")
+public class ArticleTestServlet extends HttpServlet {
+
     private ArticleService articleService = new ArticleServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         /**
-         * 获取请求参数
+         * 获取参数
          */
-        String currentPageStr = req.getParameter("currentPage");
-        String pageSizeStr = req.getParameter("pageSize");
-        String theme = "%"+req.getParameter("theme")+"%";
-
+        String aid = req.getParameter("aid");
         /**
-         * 处理参数
+         * 利用参数查询文章相关信息
          */
-        int currentPage = 0;
-        if(currentPageStr!=null&&currentPageStr.length()>0){
-            currentPage = Integer.parseInt(currentPageStr);
-        }else {
-            currentPage = 1;
-        }
-        int pageSize = 0;
-        if(pageSizeStr!=null&&pageSizeStr.length()>0){
-            pageSize = Integer.parseInt(pageSizeStr);
-        }else {
-            pageSize = 10;
-        }
-
-        /**
-         * 查询Page对象
-         */
-        Page<Article> page = null;
+        Article article = new Article();
         try {
-            page = articleService.pageQuery(currentPage,pageSize,theme);
+            article = articleService.articleTest(Integer.parseInt(aid));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         /**
-         * 将page序列化为json返回给客户端
+         * 将article序列化为json返回给客户端
          */
         ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(page);
+        String json = mapper.writeValueAsString(article);
         //设置content-type防止乱码问题
         resp.setContentType("application/json;charset=utf-8");
         resp.getWriter().write(json);

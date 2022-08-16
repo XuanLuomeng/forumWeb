@@ -8,4 +8,5 @@ import java.sql.SQLException;
 
 public interface ArticleService {
     public Page<Article> pageQuery(int currentPage, int pageSize,String theme) throws SQLException;
+    public Article articleTest(int aid) throws SQLException;
 }

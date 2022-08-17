@@ -13,9 +13,9 @@ public interface UserDao {
     public boolean isExist(User user) throws Exception;
 
     /**
-     * 保存用户数据
+     * 修改用户数据
      */
-    public void save();
+    public boolean save(User user) throws Exception;
 
     /**
      * 对照数据库是否存在此账号与密码是否对应
@@ -24,4 +24,9 @@ public interface UserDao {
      * @return
      */
     public boolean findByUsernameAndPassword(String userid, String password) throws SQLException;
+
+    /**
+     * 返回用户信息，用于存入session
+     */
+    public User userInfo(String userid) throws SQLException;
 }

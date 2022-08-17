@@ -123,9 +123,28 @@
         }
     </style>
     <script>
-        $(function (){
+        $(function () {
             //获取aid
-
+            var urlParam = decodeURI(window.location.href.split("?")[1]);
+            var aid = urlParam.split("=")[1];
+            //发送请求
+            $.get("articleTestServlet", {aid: aid}, function (article) {
+                //网站title设置为文章标题
+                $('window-title').html(article.theme);
+                //将内容展示到页面上
+                var art = "";
+                art = "<div id=\"head\">\n" +
+                    "            <span id=\"theme\">" + article.theme + "</span><br><br>\n" +
+                    "            <span id=\"author\">作者：" + article.author + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>\n" +
+                    "            <span id=\"time\">发布日期：" + article.time + "</span>\n" +
+                    "            <HR color=\"cornflowerblue\">\n" +
+                    "        </div>\n" +
+                    "        <div id=\"article\">\n" +
+                    "            <span>\n" + article.articleText +
+                    "            </span>\n" +
+                    "        </div>";
+                $("#discuss").html(art);
+            });
         });
     </script>
 </head>
@@ -149,17 +168,7 @@
         </div>
     </div>
     <div id="discuss">
-        <div id="head">
-            <span id="theme">hello javaweb</span><br><br>
-            <span id="author">作者：莫星火&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <span id="time">发布日期：2022-8-9</span>
-            <HR color="cornflowerblue">
-        </div>
-        <div id="article">
-            <span>
-                Java Web，是用Java技术来解决相关web互联网领域的技术栈。web包括：web服务端和web客户端两部分。Java在客户端的应用有Java Applet，不过使用得很少，Java在服务器端的应用非常的丰富，比如Servlet，JSP、第三方框架等等。Java技术对Web领域的发展注入了强大的动力。
-            </span>
-        </div>
+
     </div>
 </div>
 </body>

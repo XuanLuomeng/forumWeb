@@ -14,34 +14,37 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-/**
- * 完成对传入服务器的账号与密码封装并对照数据库确认账号与密码是否正确且返回处理结果操作
- */
-@WebServlet("/loginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/updateUserServlet")
+public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //获取并封装注册用户信息
         User user = new User();
         user.setUserid(req.getParameter("userid"));
-        user.setPassword(req.getParameter("password"));
-        //调用service进行数据库处理注册
+        user.setEmail(req.getParameter("email"));
+        user.setUsername(req.getParameter("username"));
+        user.setSex(req.getParameter("sex"));
+        user.setTelephone(req.getParameter("telephone"));
+        //调用service进行数据库处理修改
         UserService service = new UserServiceImpl();
         boolean flag = false;
         try {
-            flag = service.login(user.getUserid(), user.getPassword());
+            flag = service.update(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //响应是否登陆成功
-        new InfoResponse(resp,flag,"登录失败！账号或密码错误！");
-        //利用会话技术存储个人信息，以便用户访问其个人信息
-        HttpSession session = req.getSession();
-        try {
-            session.setAttribute("userInfo",service.seeUserInfo(req.getParameter("userid")));
-        } catch (SQLException e) {
-            e.printStackTrace();
+        //若修改成功，则刷新session内容
+        if(flag){
+            req.getSession().invalidate();
+            HttpSession httpSession = req.getSession();
+            try {
+                httpSession.setAttribute("userInfo",service.seeUserInfo(user.getUserid()));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        //响应是否修改成功
+        new InfoResponse(resp,flag,"修改失败！用户名已存在！");
     }
 
     @Override

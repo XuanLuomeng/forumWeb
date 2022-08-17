@@ -2,6 +2,8 @@ package com.example.forum.service;
 
 import com.example.forum.tools.User;
 
+import java.sql.SQLException;
+
 public interface UserService {
     /**
      * 注册用户
@@ -18,4 +20,14 @@ public interface UserService {
      * @throws Exception
      */
     boolean login(String userid,String password) throws Exception;
+
+    /**
+     * 查看个人信息
+     */
+    User seeUserInfo(String userid) throws SQLException;
+
+    /**
+     * 修改个人信息
+     */
+    public boolean update(User user) throws Exception;
 }

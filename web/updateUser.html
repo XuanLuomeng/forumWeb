@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改个人信息</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            background-image: linear-gradient(#a18cd1 0%, #fbc2eb 100%);
+            background-size: cover;
+            flex: 1;
+            align-items: center;
+        }
+        .info{
+            text-align: center;
+            margin: 0 auto;
+            width: 600px;
+            height: 550px;
+            background-color: rgba(87, 86, 86, 0.2);
+            border-radius: 25px;
+            box-shadow: 5px 2px 35px -7px #ff9a9e;
+        }
+        .info h2{
+            margin-top: 20px;
+            color: aliceblue;
+            font-weight: 100;
+        }
+        .info_form{
+            padding: 20px;
+        }
+        .info_form span{
+            color: rgb(131, 220, 255);
+            font-size: 18px;
+            font-weight: 100;
+        }
+        .info_form input{
+            background-color: transparent;
+            width: 320px;
+            padding: 1px;
+            text-indent: 2px;
+            color: white;
+            font-size: 20px;
+            height: 40px;
+            margin: 10px 20px 15px 5px;
+            outline: none;
+            border: 0;
+            border-bottom: 1px solid rgb(131, 220, 255);
+        }
+        input::placeholder{
+            color: #fbc2eb;
+            font-weight: 100;
+            font-size: 18px;
+            font-style: italic;
+        }
+        .modify,.modifyKey,.exit{
+            background-color: rgba(255, 255, 255, 0.582);
+            border: 1px solid rgb(190, 225, 255);
+            padding: 5px;
+            width: 180px;
+            height: 60px;
+            border-radius: 30px;
+            font-size: 24px;
+            color: rgb(100, 183, 255);
+            font-weight: 100;
+            margin-top: 5px;
+        }
+        .modify:hover{
+            box-shadow: 2px 2px 15px 2px rgb(190, 225, 255);
+            background-color: transparent;
+            color: white;
+        }
+        .modifyKey:hover{
+            box-shadow: 2px 2px 15px 2px rgb(190, 225, 255);
+            background-color: transparent;
+            color: white;
+        }
+        .exit:hover{
+            box-shadow: 2px 2px 15px 2px rgb(190, 225, 255);
+            background-color: transparent;
+            color: white;
+        }
+        .info_form input[type='radio']{
+            height: 20px;
+            width: 20px;
+            vertical-align: center;
+        }
+    </style>
+    <script>
+        function checkUsername(){
+            /**
+             * 校验用户名是否符合要求，非空即可
+             */
+            var username = $("#username").val();
+            var flag = (username!=NaN);
+            if(flag){
+                $("#username").css("border","0px");
+            }else {
+                $("#username").css("border","1px solid red");
+            }
+            return flag;
+        }
+        function checkEmail(){
+            /**
+             * 校验邮箱是否符合要求
+             */
+            var email = $("#email").val();
+            var reg_email = /^\w+@\w+\.\w+$/;
+            var flag = reg_email.test(email);
+            if(flag){
+                $("#email").css("border","0px");
+            }else {
+                $("#email").css("border","1px solid red");
+            }
+            return flag;
+        }
+        function checkTelephone(){
+            /**
+             * 校验电话号码是否符合要求
+             */
+            var telephone = $("#telephone").val();
+            var reg_telephone = /^1[0-9]{10}$/;
+            var flag = reg_telephone.test(telephone);
+            if(flag){
+                $("#telephone").css("border","0px");
+            }else {
+                $("#telephone").css("border","1px solid red");
+            }
+            return flag;
+        }
+        $(function (){
+            $.get("seeUserInfo",function (user){
+                var userInfo = "<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账号：</span>\n" +
+                    "            <input type=\"text\" id=\"userid\" name=\"userid\" readonly=\"readonly\" value=\""+user.userid+"\">\n" +
+                    "            <br>"+"<span>&nbsp;&nbsp;&nbsp;用户名：</span>\n" +
+                    "            <input type=\"text\" id=\"username\" name=\"username\" placeholder=\"请输入用户名\" value=\""+user.username+"\">\n" +
+                    "            <br>\n" +
+                    "            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱：</span>\n" +
+                    "            <input type=\"email\" id=\"email\" name=\"email\" placeholder=\"请输入邮箱\" value=\""+user.email+"\">\n" +
+                    "            <br>\n" ;
+                if(user.sex=="男") {
+                    userInfo += "            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性别：</span>\n" +
+                        "            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n" +
+                        "            <input type=\"radio\" id=\"sex\" name=\"sex\" value=\"男\" checked/><span>男</span>\n" +
+                        "            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n" +
+                        "            <input type=\"radio\" name=\"sex\" value=\"女\"/><span>女</span>\n";
+                    ;
+                }else {
+                    userInfo += "            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性别：</span>\n" +
+                        "            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n" +
+                        "            <input type=\"radio\" id=\"sex\" name=\"sex\" value=\"男\"/><span>男</span>\n" +
+                        "            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n" +
+                        "            <input type=\"radio\" name=\"sex\" value=\"女\" checked/><span>女</span>\n";
+                }
+                userInfo+="            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n" +
+                    "            <br>\n" +
+                    "            <span>电话号码：</span>\n" +
+                    "            <input type=\"tel\" id=\"telephone\" name=\"telephone\" placeholder=\"请输入电话号码\" value=\""+user.telephone+"\">\n" +
+                    "            <br>";
+                $("#info_form").html(userInfo);
+            });
+            $("#infoForm").submit(function (){
+                if(checkEmail()&&checkUsername()&&checkTelephone()){
+                    $.post("updateUserServlet",$(this).serialize(),function (data){
+                        if(data.flag){
+                            location.href="user.html";
+                        }else {
+                            alert(data.errorMsg);
+                        }
+                    });
+                }
+                return false;
+            });
+            $("#username").blur(checkUsername);
+            $("#email").blur(checkEmail);
+            $("#telephone").blur(checkTelephone);
+        });
+    </script>
+</head>
+<body>
+<div class="info">
+    <h2>个人信息</h2>
+    <form id="infoForm" action="user">
+        <div class="info_form" id="info_form">
+        </div>
+        <div>
+            <button type="submit" id="modify" class="modify">确认修改</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

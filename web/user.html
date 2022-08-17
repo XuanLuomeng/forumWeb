@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            background-image: linear-gradient(#a18cd1 0%, #fbc2eb 100%);
+            background-size: cover;
+            flex: 1;
+            align-items: center;
+        }
+        .info{
+            text-align: center;
+            margin: 0 auto;
+            width: 600px;
+            height: 600px;
+            background-color: rgba(87, 86, 86, 0.2);
+            border-radius: 25px;
+            box-shadow: 5px 2px 35px -7px #ff9a9e;
+        }
+        .info h2{
+            margin-top: 20px;
+            color: aliceblue;
+            font-weight: 100;
+        }
+        .info_form{
+            padding: 20px;
+        }
+        .info_form span{
+            color: rgb(131, 220, 255);
+            font-size: 18px;
+            font-weight: 100;
+        }
+        .info_form input{
+            background-color: transparent;
+            width: 320px;
+            padding: 1px;
+            text-indent: 2px;
+            color: white;
+            font-size: 20px;
+            height: 40px;
+            margin: 10px 20px 15px 5px;
+            outline: none;
+            border: 0;
+            border-bottom: 1px solid rgb(131, 220, 255);
+        }
+        input::placeholder{
+            color: #fbc2eb;
+            font-weight: 100;
+            font-size: 18px;
+            font-style: italic;
+        }
+        .modify,.modifyKey,.exit{
+            background-color: rgba(255, 255, 255, 0.582);
+            border: 1px solid rgb(190, 225, 255);
+            padding: 5px;
+            width: 180px;
+            height: 60px;
+            border-radius: 30px;
+            font-size: 24px;
+            color: rgb(100, 183, 255);
+            font-weight: 100;
+            margin-top: 5px;
+        }
+        .modify:hover{
+            box-shadow: 2px 2px 15px 2px rgb(190, 225, 255);
+            background-color: transparent;
+            color: white;
+        }
+        .modifyKey:hover{
+            box-shadow: 2px 2px 15px 2px rgb(190, 225, 255);
+            background-color: transparent;
+            color: white;
+        }
+        .exit:hover{
+            box-shadow: 2px 2px 15px 2px rgb(190, 225, 255);
+            background-color: transparent;
+            color: white;
+        }
+        .info_form input[type='radio']{
+            height: 20px;
+            width: 20px;
+            vertical-align: center;
+        }
+    </style>
+    <script>
+        $(function (){
+            $.get("seeUserInfo",function (user){
+                var userInfo = "<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账号："+user.userid+"</span>\n" +
+                    "            <br><br>\n" +
+                    "            <span>&nbsp;&nbsp;&nbsp;用户名："+user.username+"</span>\n" +
+                    "            <br><br>\n" +
+                    "            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱："+user.email+"</span>\n" +
+                    "            <br><br>\n" +
+                    "            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性别："+user.sex+"</span>\n" +
+                    "            <br><br>\n" +
+                    "            <span>电话号码："+user.telephone+"</span>\n" +
+                    "            <br><br>\n" +
+                    "            <span>注册日期："+user.regdate+"</span>\n" +
+                    "            <br><br>";
+                $("#info_form").html(userInfo);
+            })
+            $("#exit").click(function () {
+                $.post("exitServlet",function (){
+                    location.href = "forum.html";
+                });
+            });
+            $("#modify").click(function (){
+                location.href = "updateUser.html";
+            });
+            $("#modifyKey").click(function (){
+               location.href = "";
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="info">
+    <h2>个人信息</h2>
+    <form id="infoForm" action="user">
+        <div class="info_form" id="info_form">
+        </div>
+        <div>
+            <button type="button" id="modify" class="modify">修改个人信息</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" id="modifyKey" class="modifyKey">修改密码</button><br><br>
+            <button type="button" id="exit" class="exit">退出登录</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

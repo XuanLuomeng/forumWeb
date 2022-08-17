@@ -115,7 +115,7 @@
                 if(checkUserid()&&checkPassword()){
                     $.post("loginServlet",$("#loginForm").serialize(),function (data){
                         if(data.flag){
-                            location.href="register_ok.html";
+                            location.href="forum.html";
                         }else {
                             alert(data.errorMsg);
                         }

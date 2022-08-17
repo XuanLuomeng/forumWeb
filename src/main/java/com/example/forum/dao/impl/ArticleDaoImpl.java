@@ -45,7 +45,7 @@ public class ArticleDaoImpl implements ArticleDao {
         String sql;
         ResultSet rs;
         if(theme!=null&&theme.length()>0){
-            sql = "select username,theme,article,time from tab_user,tab_article WHERE uid=authorid and theme like ? limit ? , ?;";
+            sql = "select username,theme,article,time,aid from tab_user,tab_article WHERE uid=authorid and theme like ? limit ? , ?;";
             //获取pstmt对象
             PreparedStatement pstmt = JDBCUtils.getConnection().prepareStatement(sql);
             //设置参数

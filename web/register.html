@@ -118,6 +118,20 @@
             }
             return flag;
         }
+        function checkTelephone(){
+            /**
+             * 校验电话号码是否符合要求
+             */
+            var telephone = $("#telephone").val();
+            var reg_telephone = /^1[0-9]{10}$/;
+            var flag = reg_telephone.test(telephone);
+            if(flag){
+                $("#telephone").css("border","0px");
+            }else {
+                $("#telephone").css("border","1px solid red");
+            }
+            return flag;
+        }
         function checkPassword(){
             /**
              * 校验密码是否符合要求
@@ -152,7 +166,7 @@
         }
         $(function (){
             $("#registerForm").submit(function (){
-                if(checkUserid()&&checkPassword()&&checkEmail()&&checkUsername()){
+                if(checkUserid()&&checkPassword()&&checkEmail()&&checkUsername()&&checkTelephone()){
                     $.post("registUserServlet",$(this).serialize(),function (data){
                         if(data.flag){
                             location.href="register_ok.html";
@@ -164,10 +178,11 @@
                 return false;
             });
             $("#userid").blur(checkUserid);
-            $("#username").blur(checkUsername)
+            $("#username").blur(checkUsername);
             $("#password1").blur(checkPassword);
             $("#password2").blur(checkPassword);
             $("#email").blur(checkEmail);
+            $("#telephone").blur(checkTelephone);
         });
     </script>
 </head>

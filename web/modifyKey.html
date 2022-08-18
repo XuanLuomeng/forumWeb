@@ -2,9 +2,156 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>修改密码</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            background-image: linear-gradient(#a18cd1 0%, #fbc2eb 100%);
+            background-size: cover;
+            flex: 1;
+            align-items: center;
+        }
+        .reKey{
+            text-align: center;
+            margin: 0 auto;
+            width: 600px;
+            height: 480px;
+            background-color: rgba(87, 86, 86, 0.2);
+            border-radius: 25px;
+            box-shadow: 5px 2px 35px -7px #ff9a9e;
+        }
+        .reKey h2{
+            margin-top: 20px;
+            color: aliceblue;
+            font-weight: 100;
+        }
+        .reKey_form{
+            padding: 20px;
+        }
+        .reKey_form span{
+            color: rgb(131, 220, 255);
+            font-size: 18px;
+            font-weight: 100;
+        }
+        .reKey_form input{
+            background-color: transparent;
+            width: 320px;
+            padding: 1px;
+            text-indent: 2px;
+            color: white;
+            font-size: 20px;
+            height: 40px;
+            margin: 10px 20px 30px 5px;
+            outline: none;
+            border: 0;
+            border-bottom: 1px solid rgb(131, 220, 255);
+        }
+        input::placeholder{
+            color: #fbc2eb;
+            font-weight: 100;
+            font-size: 18px;
+            font-style: italic;
+        }
+        .reKey_btn{
+            background-color: rgba(255, 255, 255, 0.582);
+            border: 1px solid rgb(190, 225, 255);
+            padding: 5px;
+            width: 180px;
+            height: 60px;
+            border-radius: 30px;
+            font-size: 28px;
+            color: rgb(100, 183, 255);
+            font-weight: 100;
+            margin-top: 5px;
+        }
+        .reKey_btn:hover{
+            box-shadow: 2px 2px 15px 2px rgb(190, 225, 255);
+            background-color: transparent;
+            color: white;
+        }
+        .reKey_form input[type='radio']{
+            height: 20px;
+            width: 20px;
+
+            vertical-align: center;
+        }
+    </style>
+    <script>
+        function checkeOldPassword(){
+            /**
+             * 校验旧密码是否符合要求
+             */
+            var oldPassword = $("#oldPassword").val();
+            var reg_password = /^\w{8,20}$/;
+            var flag = reg_password.test(oldPassword);
+            if(flag){
+                $("#oldPassword").css("border","0px");
+            }else {
+                $("#oldPassword").css("border","1px solid red");
+            }
+            return flag;
+        }
+        function checkNewPassword(){
+            /**
+             * 校验新密码是否符合要求
+             */
+            var newPassword1 = $("#newPassword1").val();
+            var newPassword2 = $("#newPassword2").val();
+            var reg_password = /^\w{8,20}$/;
+            var flag1 = reg_password.test(newPassword1);
+            var flag2 = reg_password.test(newPassword2);
+            if(flag1&&flag2&&(newPassword2==newPassword1)){
+                $("#newPassword1").css("border","0px");
+                $("#newPassword2").css("border","0px");
+            }else {
+                $("#newPassword1").css("border","1px solid red");
+                $("#newPassword2").css("border","1px solid red");
+            }
+            return flag1&&flag2&&(newPassword2==newPassword1);
+        }
+        $(function (){
+            $("#reKeyForm").submit(function (){
+                if(checkNewPassword()&&checkeOldPassword()){
+                    $.post("reUserKey",$(this).serialize(),function (data){
+                        if(data.flag){
+                            location.href="user.html";
+                        }else {
+                            alert(data.errorMsg);
+                        }
+                    });
+                }
+                return false;
+            });
+            $("#oldPassword").blur(checkeOldPassword);
+            $("#newPassword1").blur(checkNewPassword);
+            $("#newPassword2").blur(checkNewPassword);
+        });
+    </script>
 </head>
 <body>
-
+<div class="reKey">
+    <h2>修改密码</h2>
+    <form id="reKeyForm" action="user">
+        <div class="reKey_form">
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;旧密码：</span>
+            <input type="password" id="oldPassword" name="oldPassword" placeholder="请输入旧密码">
+            <br>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;新密码：</span>
+            <input type="password" id="newPassword1" name="newPassword1" placeholder="请输入新密码">
+            <br>
+            <span>确认密码：</span>
+            <input type="password" id="newPassword2" name="newPassword2" placeholder="请再次输入新密码">
+            <br>
+        </div>
+        <div class="btn">
+            <button type="submit" class="reKey_btn">确 &nbsp;&nbsp;&nbsp;认</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>

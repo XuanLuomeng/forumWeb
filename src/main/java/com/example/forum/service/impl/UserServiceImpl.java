@@ -66,4 +66,14 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+    /**
+     * 修改密码
+     */
+    @Override
+    public void reKey(String userid, String newPassword) throws SQLException {
+        UserDao userDao = new UserDaoImpl();
+        //因修改密码失败的情况已经在Servlet里就已经判断完成，节省访问数据库时间，在这里直接修改密码
+        userDao.reUserKey(userid,newPassword);
+    }
 }

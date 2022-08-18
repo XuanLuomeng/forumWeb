@@ -30,4 +30,9 @@ public interface UserService {
      * 修改个人信息
      */
     public boolean update(User user) throws Exception;
+
+    /**
+     * 修改密码
+     */
+    public void reKey(String userid,String newPassword) throws SQLException;
 }

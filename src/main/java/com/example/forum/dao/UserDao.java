@@ -29,4 +29,9 @@ public interface UserDao {
      * 返回用户信息，用于存入session
      */
     public User userInfo(String userid) throws SQLException;
+
+    /**
+     * 修改密码
+     */
+    public void reUserKey(String userid,String newPassword) throws SQLException;
 }

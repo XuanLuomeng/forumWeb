@@ -131,4 +131,20 @@ public class UserDaoImpl implements UserDao {
         }
         return user;
     }
+
+    /**
+     * 修改密码
+     */
+    @Override
+    public void reUserKey(String userid, String newPassword) throws SQLException {
+        //定义sql
+        String sql = "UPDATE tab_user SET `password` = ? WHERE userid = ?;";
+        //获取pstmt对象
+        PreparedStatement pstmt = JDBCUtils.getConnection().prepareStatement(sql);
+        //设置参数
+        pstmt.setString(2, userid);
+        pstmt.setString(1,newPassword);
+        //执行sql
+        int rs = pstmt.executeUpdate();
+    }
 }

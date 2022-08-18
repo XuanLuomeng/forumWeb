@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文章管理</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <style>
+        body{
+            font-size: 12px;
+            background: linear-gradient(rgb(100, 183, 255) 0%, rgb(110, 200, 255) 100%);
+        }
+        #mast{
+            width: 1200px;
+            margin: auto;
+            align-content: center;
+        }
+        #discuss,#discuss-datas{
+            width: 970px;
+            float: right;
+            margin-left: 20px;
+            background-image: linear-gradient(#fbc2eb 0%, #a18cd1 100%);
+        }
+        #discuss-content{
+            border-bottom: 1px solid #DDDDDD;
+        }
+        #discuss-datas tr.header td{
+            font-weight: bold;
+            padding: 10px 0;
+            border-bottom: 1px solid #DDDDDD;
+            color: #666666;
+        }
+        #discuss-datas td{
+            text-align: center;
+        }
+        #discuss-datas td.col1{
+            width: 620px;
+            text-align: left;
+        }
+        #discuss-datas tbody td{
+            color: black;
+        }
+        #discuss-datas tbody td{
+            padding: 5px 0px;
+            border-bottom: 1px dotted #DDDDDD;
+        }
+        #discuss i{
+            padding-left: 21px;
+            padding-bottom: 5px;
+            background-size: 100%;
+        }
+        #user{
+            border-radius: 10%;
+            padding: 20px;
+            float: left;
+            background-image: linear-gradient(#a18cd1 0%, #fbc2eb 100%);
+        }
+        .userImg{
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+        }
+        #mast_left{
+            height: 190px;
+            width: 190px;
+            float: left;
+        }
+        #tool{
+            border-radius: 5%;
+            float: left;
+            width: 180px;
+            height: 100px;
+            padding-left: 5px;
+            margin-top: 30px;
+            background-image: linear-gradient(#a18cd1 0%, #fbc2eb 100%);
+        }
+        #tool input{
+            width: 120px;
+            border: 1px solid rgb(190, 225, 255);
+            background-color: transparent;
+        }
+        #tool input::placeholder{
+            color: #fbc2eb;
+            font-weight: 100;
+            font-size: 10px;
+            font-style: italic;
+        }
+        .search_btn{
+            background-color: rgba(255, 255, 255, 0.582);
+            border: 1px solid rgb(190, 225, 255);
+            padding: 2px;
+            width: 40px;
+            height: 23px;
+            border-radius: 30px;
+            font-size: 5px;
+            color: rgb(100, 183, 255);
+            font-weight: 100;
+            margin-top: 15px;
+        }
+        #delete,#reTest{
+            background-color: rgba(255, 255, 255, 0.582);
+            border: 1px solid rgb(190, 225, 255);
+            padding: 2px;
+            width: 40px;
+            height: 23px;
+            border-radius: 30px;
+            font-size: 5px;
+            color: rgb(100, 183, 255);
+            font-weight: 100;
+            margin-top: 15px;
+        }
+        #tool button:hover{
+            box-shadow: 2px 2px 15px 2px rgb(190, 225, 255);
+            background-color: transparent;
+            color: pink;
+        }
+        .testPublish_btn{
+            background-color: rgba(255, 255, 255, 0.582);
+            border: 1px solid rgb(190, 225, 255);
+            padding: 2px;
+            margin-left: 6px;
+            width: 160px;
+            height: 30px;
+            border-radius: 30px;
+            font-size: 5px;
+            color: rgb(100, 183, 255);
+            font-weight: 100;
+            margin-top: 15px;
+        }
+        .pageNum {
+            width: 100%;
+            overflow: hidden;
+        }
+        .pageNum ul li {
+            width: 30px;
+            height: 30px;
+            float: left;
+            border: 1px solid blue;
+            background: rgb(190, 225, 255);
+            margin-right: 10px;
+            text-align: center;
+            line-height: 40px;
+            list-style: none;
+            cursor: pointer;
+        }
+        .pageNum ul li.curPage {
+            background-color: blue;
+        }
+        .pageNum ul li a {
+            width: 100%;
+            height: 100%;
+            color: #000;
+            font-size: 8px;
+        }
+        .pageNum ul .threeword {
+            width: 75px;
+        }
+        #theme{
+            float: left;
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        $(function (){
+            //页码展示
+            load(null,null);
+            /**
+             * 查询按钮
+             */
+            $("#search_btn").click(function (){
+                var theme = $("#searchText").val();
+                load(null,theme);
+            });
+        });
+        function load(currentPage,theme){
+            $.get("userArticleServlet",{currentPage:currentPage,theme:theme},function (page){
+                /**
+                 * 展示文章总数和页码总数
+                 */
+                $("#totalPage").html(page.totalPage);
+                $("#totalCount").html(page.totalCount);
+                /**
+                 * 分页展示，当页码为第一页，则无上一页和首页按钮，如页码为最后一页，则无下一页和末页按钮
+                 * @type {string}
+                 */
+                var lis = "";
+                var homePage = "";
+                var previousPage = "";
+                var nextPage = "";
+                var lastPage = "";
+                var beforePage = page.currentPage - 1;
+                var afterPage = page.currentPage + 1;
+                if(beforePage>0){
+                    previousPage = '<li onclick="javascript:load('+beforePage+',\''+theme+'\')" class="threeword"><a href="javascript:void(0)">上一页</a></li>';
+                    homePage = '<li onclick="javascript:load(1)"><a href="javascript:void(0)">首页</a></li>';
+                }
+                if(afterPage<page.totalPage){
+                    nextPage = ' <li onclick="javascript:load('+afterPage+',\''+theme+'\')" class="threeword"><a href="javascript:void(0);">下一页</a></li>';
+                    lastPage = ' <li onclick="javascript:load('+page.totalPage+',\''+theme+'\')" class="threeword"><a href="javascript:void(0)">末页</a></li>';
+                }
+                lis+=homePage;
+                lis+=previousPage;
+                var begin;
+                var end;
+                //固定只显示十个页码,分页码是否足够10个两个情况,其内再分补齐时数值越出正常页码数范围的情况
+                if(page.totalPage<10){
+                    begin=1;
+                    end=page.totalPage;
+                }else {
+                    begin = page.currentPage-5;
+                    end = page.currentPage+4;
+                    if(begin<1){
+                        begin = 1;
+                        end = begin + 9;
+                    }
+                    if(end>page.totalPage){
+                        end = page.totalPage;
+                        begin = end - 9;
+                    }
+                }
+                for (var i=begin;i<=end;i++){
+                    //判断当前页码是否等于i
+                    if(page.currentPage==i){
+                        var li = '<li class="curPage" onclick="javascript:load('+i+',\''+theme+'\')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    }else {
+                        li = '<li onclick="javascript:load('+i+',\''+theme+'\')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    }
+                    //拼接字符串
+                    lis += li;
+                }
+                lis+=nextPage;
+                lis+=lastPage;
+                //将lis内容设置到ul中
+                $("#pageNum").html(lis);
+                /**
+                 * 列表展示
+                 */
+                var article_lis = "";
+                for(var i = 0;i<page.list.length;i++){
+                    //获取文章主题，作者，发布时间，浏览/回复
+                    var article = page.list[i];
+                    var article_li = "<tr>\n" +
+                        "                        <td id=\"theme\">"+article.theme+"</td>\n" +
+                        "                        <td>16/99</td>\n" +
+                        "                        <td><button type=\"button\" id=\"reTest\">修改</button></td>\n" +
+                        "                        <td><button type=\"button\" id=\"delete\">删除</button></td>\n" +
+                        "                        <td>"+article.time+"</td>\n" +
+                        "                    </tr>";
+                    article_lis +=article_li;
+                }
+                $("#article").html(article_lis);
+                //定位页面顶部
+                window.scrollTo(0,0);
+            })
+        }
+    </script>
+</head>
+<body>
+<div id="mast">
+    <div id="mast_left">
+        <div id="user">
+            <img class="userImg" id="userImg" src="img/2.jpg">
+            <div class="btn" id="btn">
+            </div>
+        </div>
+        <div id="tool">
+            <input type="text" id="searchText" name="searchText" placeholder="请输入查找内容">
+            <button type="button" class="search_btn" id="search_btn">查找</button>
+            <button type="button" class="testPublish_btn" id="testPublish_btn">文章发布</button>
+        </div>
+    </div>
+    <div id="discuss">
+        <div id="discuss-content">
+            <table id="discuss-datas">
+                <tr class="header">
+                    <td class="col1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主题</td>
+                    <td>浏览/回复</td>
+                    <td>操作</td>
+                    <td></td>
+                    <td>时间</td>
+                </tr>
+                <tbody id="article">
+                </tbody>
+            </table>
+            <!--显示的拓展内容-->
+            <div id="discuss-total">
+                <div class="all_discuss">
+                    共<span id="totalPage">1</span>页，共<span id="totalCount">900</span>个话题
+                </div>
+            </div>
+            <div class="pageNum">
+                <ul id="pageNum">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

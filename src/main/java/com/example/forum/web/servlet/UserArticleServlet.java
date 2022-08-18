@@ -4,6 +4,8 @@ import com.example.forum.service.ArticleService;
 import com.example.forum.service.impl.ArticleServiceImpl;
 import com.example.forum.tools.Article;
 import com.example.forum.tools.Page;
+import com.example.forum.tools.User;
+import com.example.forum.tools.sql.FindAuthorid;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
@@ -11,18 +13,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-/**
- * 论坛页码、文章等展示
- */
-@WebServlet("/articleServlet")
-public class ArticleServlet extends HttpServlet {
+@WebServlet("/userArticleServlet")
+public class UserArticleServlet extends HttpServlet {
     private ArticleService articleService = new ArticleServiceImpl();
-
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
         /**
          * 获取请求参数
          */
@@ -47,11 +46,16 @@ public class ArticleServlet extends HttpServlet {
         }
 
         /**
-         * 查询Page对象
+         * 获取当前用户信息，并查询Page对象
          */
+        HttpSession httpSession = req.getSession();
+        Object user = httpSession.getAttribute("userInfo");
+        User us = (User) user;
         Page<Article> page = null;
         try {
-            page = articleService.pageQuery(currentPage,pageSize,theme,null);
+            FindAuthorid findAuthorid = new FindAuthorid(us.getUserid());
+            String authorid = findAuthorid.getUid();
+            page = articleService.pageQuery(currentPage,pageSize,theme,authorid);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -68,6 +72,6 @@ public class ArticleServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.doGet(req,resp);
+        this.doGet(req, resp);
     }
 }

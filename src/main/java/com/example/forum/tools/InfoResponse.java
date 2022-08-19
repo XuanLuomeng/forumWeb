@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 给客户端浏览器返回的一些数据，如登录/注册等操作是否成功，若失败会弹出窗口提示什么信息等
+ */
 public class InfoResponse {
 
     public InfoResponse(){}

@@ -5,6 +5,9 @@ import com.example.forum.tools.User;
 
 import java.sql.PreparedStatement;
 
+/**
+ * 修改用户信息
+ */
 public class UpdateUser {
     public UpdateUser(User user) throws Exception {
         //定义sql

@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * 从session里获取用户信息，如果没有则返回0.可用作检测是否已登录，查看个人信息，获取个人信息等供许多功能使用
+ */
 @WebServlet("/seeUserInfo")
 public class SeeUserInfo extends HttpServlet {
     @Override

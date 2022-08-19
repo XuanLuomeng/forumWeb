@@ -171,7 +171,26 @@
                 var theme = $("#searchText").val();
                 load(null,theme);
             });
+            /**
+             * 文章发布按钮
+             */
+            $("#testPublish_btn").click(function (){
+               location.href = "publishArticle.html";
+            });
         });
+        function deleteArticle(aid){
+            var r = confirm("是否确认删除文章？");
+            if(r==true){
+                $.get("deleteArticle",{aid:aid});
+                location.reload(false);
+            }else {
+                void(0);
+            }
+        };
+        function modifyArticle(aid){
+            var href = "modifyArticle.html?aid="+aid;
+            location.href = href;
+        };
         function load(currentPage,theme){
             $.get("userArticleServlet",{currentPage:currentPage,theme:theme},function (page){
                 /**
@@ -242,8 +261,8 @@
                     var article_li = "<tr>\n" +
                         "                        <td id=\"theme\">"+article.theme+"</td>\n" +
                         "                        <td>16/99</td>\n" +
-                        "                        <td><button type=\"button\" id=\"reTest\">修改</button></td>\n" +
-                        "                        <td><button type=\"button\" id=\"delete\">删除</button></td>\n" +
+                        "                        <td><button type=\"button\" id=\"reTest\" onclick='modifyArticle("+article.aid+")'>修改</button></td>\n" +
+                        "                        <td><button type=\"button\" id=\"delete\" onclick='deleteArticle("+article.aid+")'>删除</button></td>\n" +
                         "                        <td>"+article.time+"</td>\n" +
                         "                    </tr>";
                     article_lis +=article_li;

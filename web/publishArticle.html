@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布文章</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <style>
+        body{
+            font-size: 12px;
+            background: linear-gradient(rgb(100, 183, 255) 0%, rgb(110, 200, 255) 100%);
+        }
+        #mast{
+            width: 1200px;
+            margin: auto;
+            align-content: center;
+        }
+        #discuss{
+            width: 970px;
+            height: 630px;
+            float: right;
+            margin-left: 20px;
+            background-image: linear-gradient(#fbc2eb 0%, #a18cd1 100%);
+        }
+        #user{
+            border-radius: 10%;
+            padding: 20px;
+            float: left;
+            background-image: linear-gradient(#a18cd1 0%, #fbc2eb 100%);
+        }
+        .userImg{
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+        }
+        #mast_left{
+            height: 190px;
+            width: 190px;
+            float: left;
+        }
+        #tool{
+            border-radius: 5%;
+            float: left;
+            width: 180px;
+            height: 60px;
+            padding-left: 5px;
+            margin-top: 30px;
+            background-image: linear-gradient(#a18cd1 0%, #fbc2eb 100%);
+        }
+        #tool input{
+            width: 120px;
+            border: 1px solid rgb(190, 225, 255);
+            background-color: transparent;
+        }
+        #tool input::placeholder{
+            color: #fbc2eb;
+            font-weight: 100;
+            font-size: 10px;
+            font-style: italic;
+        }
+        #tool button:hover{
+            box-shadow: 2px 2px 15px 2px rgb(190, 225, 255);
+            background-color: transparent;
+            color: pink;
+        }
+        .confirm_btn{
+            background-color: rgba(255, 255, 255, 0.582);
+            border: 1px solid rgb(190, 225, 255);
+            padding: 2px;
+            margin-left: 6px;
+            width: 160px;
+            height: 30px;
+            border-radius: 30px;
+            font-size: 5px;
+            color: rgb(100, 183, 255);
+            font-weight: 100;
+            margin-top: 15px;
+        }
+        #publish_form input[type='radio']{
+            height: 20px;
+            width: 20px;
+            vertical-align: center;
+        }
+        #publish_form{
+            padding: 20px;
+        }
+        #publish_form span{
+            color: rgb(131, 220, 255);
+            font-size: 18px;
+            font-weight: 100;
+        }
+        #theme{
+            background-color: transparent;
+            width: 850px;
+            padding: 1px;
+            text-indent: 2px;
+            color: white;
+            font-size: 20px;
+            height: 40px;
+            margin: 10px 20px 15px 5px;
+            outline: none;
+            border: 0;
+            border-bottom: 1px solid rgb(131, 220, 255);
+        }
+        #article{
+            background-color: transparent;
+            width: 910px;
+            height: 450px;
+            resize: none;
+            padding: 1px;
+            text-indent: 2px;
+            color: white;
+            font-size: 20px;
+            margin: 10px 20px 15px 5px;
+            outline: none;
+            border: 1px solid cornflowerblue;
+            border-bottom: 1px solid rgb(131, 220, 255);
+        }
+        input::placeholder{
+            color: cornflowerblue;
+            font-weight: 100;
+            font-size: 18px;
+            font-style: italic;
+        }
+    </style>
+    <script>
+        function checkArticlelength(){
+            var article = $("#article").val();
+            var article_length = article.length;
+            var al = "还剩"+(1000-article_length)+"字可写";
+            $("#size_length").html(al);
+            var flag = (article_length<=1000);
+            if (flag){
+            }else {
+                $("#article").css("border", "1px solid red");
+            }
+            return flag;
+        }
+        function checkThemelength(){
+            var theme = $("#theme").val();
+            var theme_length = theme.length;
+            var flag = (theme_length<=100);
+            var tips = "标题不可超过100字数,现已有"+theme_length+"字！";
+            if(flag){
+            }else {
+                alert(tips);
+            }
+            return flag;
+        }
+
+        $(function (){
+            $("#confirm_btn").click(function (){
+                var theme = $("#theme").val();
+                var article = $("#article").val();
+               if(checkArticlelength()&&checkThemelength()){
+                   $.post("pushArticle",{theme:theme,article:article},function (){
+                        location.href = "testManage.html";
+                   });
+               }
+               return false;
+            });
+            $("#theme").blur(checkThemelength);
+            $("#article").blur(checkArticlelength);
+        });
+    </script>
+</head>
+<body>
+<div id="mast">
+    <div id="mast_left">
+        <div id="user">
+            <img class="userImg" id="userImg" src="img/2.jpg">
+            <div class="btn" id="btn">
+            </div>
+        </div>
+        <div id="tool">
+            <button type="button" class="confirm_btn" id="confirm_btn">确认发布</button>
+        </div>
+    </div>
+    <div id="discuss">
+        <form id="publish_form">
+            <span>主题:</span>
+            <input type="text" id="theme" class="theme" placeholder="请输入文章主题">
+            <br>
+            <HR color="cornflowerblue">
+            <textarea id="article" class="article" placeholder="请输入文章内容"></textarea>
+        </form>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span id="size_length">还剩1000字</span>
+    </div>
+</div>
+</body>
+</html>

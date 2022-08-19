@@ -3,9 +3,7 @@ package com.example.forum.web.servlet;
 import com.example.forum.service.UserService;
 import com.example.forum.service.impl.UserServiceImpl;
 import com.example.forum.tools.InfoResponse;
-import com.example.forum.tools.InfoResult;
 import com.example.forum.tools.User;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

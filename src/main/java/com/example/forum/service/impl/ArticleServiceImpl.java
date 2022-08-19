@@ -9,8 +9,21 @@ import com.example.forum.tools.Page;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * 返回页码等信息（分所以或个人两个情况）
+ */
 public class ArticleServiceImpl implements ArticleService {
     private ArticleDao articleDao = new ArticleDaoImpl();
+
+    /**
+     * 当authorid为空，则返回所以文章页码总数等信息，否则返回个人文章页码总数等信息
+     * @param currentPage
+     * @param pageSize
+     * @param theme
+     * @param authorid
+     * @return
+     * @throws SQLException
+     */
     @Override
     public Page<Article> pageQuery(int currentPage, int pageSize,String theme,String authorid) throws SQLException {
         if(authorid==null) {
@@ -52,6 +65,12 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
+    /**
+     * 以aid搜索文章
+     * @param aid
+     * @return
+     * @throws SQLException
+     */
     @Override
     public Article articleTest(int aid) throws SQLException {
         //封装article

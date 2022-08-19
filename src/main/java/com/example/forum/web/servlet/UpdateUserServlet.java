@@ -14,6 +14,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * 修改个人信息，并返回提示信息已经是否成功
+ */
 @WebServlet("/updateUserServlet")
 public class UpdateUserServlet extends HttpServlet {
     @Override

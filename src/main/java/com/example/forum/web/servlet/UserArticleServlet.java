@@ -17,6 +17,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * 个人文章的展示以及查询功能等
+ */
 @WebServlet("/userArticleServlet")
 public class UserArticleServlet extends HttpServlet {
     private ArticleService articleService = new ArticleServiceImpl();
@@ -46,7 +49,7 @@ public class UserArticleServlet extends HttpServlet {
         }
 
         /**
-         * 获取当前用户信息，并查询Page对象
+         * 获取当前用户uid信息，并查询Page对象
          */
         HttpSession httpSession = req.getSession();
         Object user = httpSession.getAttribute("userInfo");

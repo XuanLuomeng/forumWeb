@@ -134,6 +134,10 @@
         }
         $(function (){
             $.get("seeUserInfo",function (user){
+                /**
+                 * 分段添加html内容，主要是中间有个默认选项男/女
+                 * @type {string}
+                 */
                 var userInfo = "<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账号：</span>\n" +
                     "            <input type=\"text\" id=\"userid\" name=\"userid\" readonly=\"readonly\" value=\""+user.userid+"\">\n" +
                     "            <br>"+"<span>&nbsp;&nbsp;&nbsp;用户名：</span>\n" +

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 解决中文乱码问题
+ * 用过滤器来解决中文乱码问题
  */
 
 @WebFilter("/*")

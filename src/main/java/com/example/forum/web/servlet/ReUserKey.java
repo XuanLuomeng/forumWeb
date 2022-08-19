@@ -14,6 +14,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * 修改密码，html里已经进行了一次核验，这里可以少不少操作
+ */
 @WebServlet("/reUserKey")
 public class ReUserKey extends HttpServlet {
     @Override

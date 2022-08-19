@@ -12,12 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleDaoImpl implements ArticleDao {
+    /**
+     * 返回页码总数(包含搜索功能)
+     * @param theme
+     * @return
+     * @throws SQLException
+     */
     @Override
     public int findTotalCount(String theme) throws SQLException {
         //定义sql
         String sql;
         ResultSet rs;
         if(theme!=null&&theme.length()>0){
+            /**
+             * 查询功能的文章总数
+             */
             sql = "select count(aid) from tab_article where theme like ?;";
             //获取pstmt对象
             PreparedStatement pstmt = JDBCUtils.getConnection().prepareStatement(sql);
@@ -26,6 +35,9 @@ public class ArticleDaoImpl implements ArticleDao {
             //执行sql
             rs = pstmt.executeQuery();
         }else {
+            /**
+             * 所有文章总数
+             */
             sql = "select count(aid) from tab_article;";
             //获取statement对象
             Statement stmt = JDBCUtils.getConnection().createStatement();
@@ -39,12 +51,23 @@ public class ArticleDaoImpl implements ArticleDao {
         return pageCount;
     }
 
+    /**
+     * 分页查询获取分页信息(包含搜索功能)
+     * @param start
+     * @param pageSize
+     * @param theme
+     * @return
+     * @throws SQLException
+     */
     @Override
     public List<Article> findByPage(int start, int pageSize,String theme) throws SQLException {
         //定义sql
         String sql;
         ResultSet rs;
         if(theme!=null&&theme.length()>0){
+            /**
+             * 查询功能的所有文章的分页功能
+             */
             sql = "select username,theme,article,time,aid from tab_user,tab_article WHERE uid=authorid and theme like ? limit ? , ?;";
             //获取pstmt对象
             PreparedStatement pstmt = JDBCUtils.getConnection().prepareStatement(sql);
@@ -55,6 +78,9 @@ public class ArticleDaoImpl implements ArticleDao {
             //执行sql
             rs = pstmt.executeQuery();
         }else {
+            /**
+             * 所有文章的分页功能
+             */
             sql = "select username,theme,article,time,aid from tab_user,tab_article WHERE uid=authorid limit ? , ?;";
             //获取pstmt对象
             PreparedStatement pstmt = JDBCUtils.getConnection().prepareStatement(sql);
@@ -78,12 +104,22 @@ public class ArticleDaoImpl implements ArticleDao {
         return articles;
     }
 
+    /**
+     * 个人文章总数等信息(包含搜索功能)
+     * @param theme
+     * @param authorid
+     * @return
+     * @throws SQLException
+     */
     @Override
     public int findUserTotalCount(String theme, String authorid) throws SQLException {
         //定义sql
         String sql;
         ResultSet rs;
         if(theme!=null&&theme.length()>0){
+            /**
+             * 查询功能的个人总文章数
+             */
             sql = "select count(aid) from tab_article where authorid = ? and theme like ?;";
             //获取pstmt对象
             PreparedStatement pstmt = JDBCUtils.getConnection().prepareStatement(sql);
@@ -93,6 +129,9 @@ public class ArticleDaoImpl implements ArticleDao {
             //执行sql
             rs = pstmt.executeQuery();
         }else {
+            /**
+             * 所有的个人总文章数
+             */
             sql = "select count(aid) from tab_article where authorid = ?;";
             //获取pstmt对象
             PreparedStatement pstmt = JDBCUtils.getConnection().prepareStatement(sql);
@@ -108,12 +147,24 @@ public class ArticleDaoImpl implements ArticleDao {
         return pageCount;
     }
 
+    /**
+     * 分页查询个人分页信息（包含搜索功能）
+     * @param start
+     * @param pageSize
+     * @param theme
+     * @param authorid
+     * @return
+     * @throws SQLException
+     */
     @Override
     public List<Article> findUserByPage(int start, int pageSize, String theme, String authorid) throws SQLException {
         //定义sql
         String sql;
         ResultSet rs;
         if(theme!=null&&theme.length()>0){
+            /**
+             * 查询功能的个人文章分页
+             */
             sql = "select username,theme,article,time,aid from tab_user,tab_article WHERE uid=authorid and authorid = ? and theme like ? limit ? , ?;";
             //获取pstmt对象
             PreparedStatement pstmt = JDBCUtils.getConnection().prepareStatement(sql);
@@ -125,6 +176,9 @@ public class ArticleDaoImpl implements ArticleDao {
             //执行sql
             rs = pstmt.executeQuery();
         }else {
+            /**
+             * 所有个人文章分页
+             */
             sql = "select username,theme,article,time,aid from tab_user,tab_article WHERE uid=authorid and authorid = ? limit ? , ?;";
             //获取pstmt对象
             PreparedStatement pstmt = JDBCUtils.getConnection().prepareStatement(sql);
@@ -149,6 +203,12 @@ public class ArticleDaoImpl implements ArticleDao {
         return articles;
     }
 
+    /**
+     * 以aid查询文章信息
+     * @param aid
+     * @return
+     * @throws SQLException
+     */
     @Override
     public Article findArticle(int aid) throws SQLException {
         //定义sql

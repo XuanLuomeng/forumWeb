@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 退出登录
+ * 退出登录,将session结束掉
  */
 @WebServlet("/exitServlet")
 public class ExitServlet extends HttpServlet {

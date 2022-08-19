@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- * 文章内容展示
+ * 文章内容展示，用aid来获取文章内容
  */
 @WebServlet("/articleTestServlet")
 public class ArticleTestServlet extends HttpServlet {

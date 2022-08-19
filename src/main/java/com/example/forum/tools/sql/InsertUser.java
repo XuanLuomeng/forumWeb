@@ -5,6 +5,9 @@ import com.example.forum.tools.User;
 
 import java.sql.PreparedStatement;
 
+/**
+ * 注册账号
+ */
 public class InsertUser {
     public InsertUser(User user) throws Exception {
         //定义sql

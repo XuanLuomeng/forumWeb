@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * 根据账号查询uid，用于获取个人文章信息
+ */
 public class FindAuthorid {
     private String uid;
     public FindAuthorid(String userid) throws SQLException {
